@@ -3,27 +3,13 @@
 @tailwind utilities;
 
 @layer base {
-    /*.category {*/
-    /*    position: relative;*/
-    /*    cursor: pointer;*/
-    /*    padding: 5px 10px;*/
-    /*    border: 1px solid #ccc;*/
-    /*    margin-bottom: 5px;*/
-    /*    border-radius: 4px;*/
-    /*}*/
-
-    /*.subcategory {*/
-    /*    margin-left: 20px;*/
-    /*}*/
-
     .category {
         position: relative;
         transition: background-color 0.3s ease-in-out;
     }
 
     .category.highlighted {
-        border-left: 1px solid white;
-        /*background-color: rgba(240, 240, 240, 0.5);*/
+        border-left: 1px solid #C39E80;
     }
 
     .subcategory {
@@ -36,9 +22,5 @@
     .subcategory.expanded {
         height: auto;
         opacity: 1;
-    }
-
-    .category.highlighted {
-        border-left: 1px solid white;
     }
 }

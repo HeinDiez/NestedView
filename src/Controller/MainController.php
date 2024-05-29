@@ -15,33 +15,93 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_homepage')]
-    public function homepage(
-        VoyageRepository $voyageRepository,
-        PlanetRepository $planetRepository,
-        #[MapQueryParameter] int $page = 1,
-        #[MapQueryParameter] string $sort = 'leaveAt',
-        #[MapQueryParameter] string $sortDirection = 'ASC',
-        #[MapQueryParameter('query')] string $query = null,
-        #[MapQueryParameter('planets', \FILTER_VALIDATE_INT)] array $searchPlanets = [],
-    ): Response
+    public function homepage(): Response
     {
-        $validSorts = ['purpose', 'leaveAt'];
-        $sort = in_array($sort, $validSorts) ? $sort : 'leaveAt';
-
-//        $voyages = $voyageRepository->findBySearch($query, $searchPlanets);
-        $pager = Pagerfanta::createForCurrentPageWithMaxPerPage(
-            new QueryAdapter($voyageRepository->findBySearchQueryBuilder($query, $searchPlanets, $sort, $sortDirection)),
-            $page,
-            10
-        );
+        $categories = [
+            [
+                "id" => 1,
+                "name" => "Electronics",
+                "type" => "folder",
+                "subcategories" => [
+                    [
+                        "id" => 2,
+                        "name" => "Computers",
+                        "type" => "folder",
+                        "subcategories" => [
+                            [
+                                "id" => 3,
+                                "name" => "Laptops",
+                                "type" => "folder",
+                                "subcategories" => [
+                                    [
+                                        "id" => 9,
+                                        "name" => "ASUS",
+                                        "type" => "text",
+                                        "subcategories" => []
+                                    ],
+                                    [
+                                        "id" => 10,
+                                        "name" => "Lenovo",
+                                        "type" => "text",
+                                        "subcategories" => []
+                                    ]
+                                ]
+                            ],
+                            [
+                                "id" => 4,
+                                "name" => "Desktops",
+                                "type" => "text",
+                                "subcategories" => []
+                            ]
+                        ]
+                    ],
+                    [
+                        "id" => 5,
+                        "name" => "Mobile Phones",
+                        "type" => "folder",
+                        "subcategories" => [
+                            [
+                                "id" => 11,
+                                "name" => "Apple",
+                                "type" => "image",
+                                "imageUrl" => "images/planet-1.png",
+                                "subcategories" => []
+                            ],
+                            [
+                                "id" => 12,
+                                "name" => "Samsung",
+                                "type" => "image",
+                                "imageUrl" => "images/planet-1.png",
+                                "subcategories" => []
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
+                "id" => 6,
+                "name" => "Furniture",
+                "type" => "folder",
+                "subcategories" => [
+                    [
+                        "id" => 7,
+                        "name" => "Living Room",
+                        "type" => "text",
+                        "subcategories" => []
+                    ],
+                    [
+                        "id" => 8,
+                        "name" => "Bedroom",
+                        "type" => "text",
+                        "subcategories" => []
+                    ]
+                ]
+            ]
+        ];
 
 
         return $this->render('main/homepage.html.twig', [
-            'sort' => $sort,
-            'sortDirection' => $sortDirection,
-            'voyages' => $pager,
-            'planets' => $planetRepository->findAll(),
-            'searchPlanets' => $searchPlanets,
+            'categories' => $categories,
         ]);
     }
 }

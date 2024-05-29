@@ -24,9 +24,27 @@ export default class extends Controller {
 
     createCategoryElement(category, level) {
         const categoryElement = document.createElement('div');
-        categoryElement.classList.add('category', 'mb-2', 'p-2', 'border-l-[1px]', 'border-l-white');
+        categoryElement.classList.add('category', 'mb-2', 'p-2', 'border-l-[1px]', 'border-l-warm-orange');
         categoryElement.style.marginLeft = `20px`;
-        categoryElement.textContent = category.name;
+
+        switch (category.type) {
+            case 'folder':
+                categoryElement.textContent = category.name;
+                categoryElement.textContent = category.name;
+                break;
+            case 'image':
+                const img = document.createElement('img');
+                img.src = category.imageUrl;
+                img.alt = category.name;
+                img.style.width = '50px'; // Adjust size as needed
+                categoryElement.appendChild(img);
+                break;
+            case 'text':
+                categoryElement.textContent = category.name;
+                break;
+            default:
+                categoryElement.textContent = category.name;
+        }
 
         categoryElement.addEventListener('click', (event) => {
             this.highlightCategory(event, categoryElement);
@@ -38,7 +56,7 @@ export default class extends Controller {
     createExpandableSection(categoryElement) {
         const expandButton = document.createElement('span');
         expandButton.textContent = ' +';
-        expandButton.classList.add('ml-1', 'text-gray-500', 'cursor-pointer');
+        expandButton.classList.add('ml-1', 'text-dark-gray', 'cursor-pointer');
         categoryElement.appendChild(expandButton);
 
         const subcategoryContainer = document.createElement('div');
