@@ -1,0 +1,3 @@
+<?php //bd3c892f76b99cd319f07c83a61caa9f
+
+return [PHP_INT_MAX, 'controllers/category_tree_controller.js'];

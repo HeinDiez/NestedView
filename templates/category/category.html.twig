@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tree View!{% endblock %}
+
+{% block body %}
+    <div
+            id="categoryTree"
+            data-controller="category-tree"
+            data-category-tree-categories-value="{{ categories|json_encode|e('html_attr') }}">
+    </div>
+{% endblock %}
