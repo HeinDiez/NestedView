@@ -3,10 +3,17 @@
 {% block title %}Tree View!{% endblock %}
 
 {% block body %}
-    <div
-            id="categoryTree"
-            data-controller="category-tree"
-            data-category-tree-categories-value="{{ categories|json_encode|e('html_attr') }}">
-    </div>
-
+    <turbo-frame id="folder">
+        <div class="grid grid-col auto-rows-auto grid-cols-4 gap-x-4">
+            <section
+                class="col-span-1"
+                id="categoryTree"
+                data-controller="category-tree"
+                data-category-tree-categories-value="{{ categories|json_encode|e('html_attr') }}">
+            </section>
+            <section id="content-display"
+                 class="col-span-3 border border-pale-pink p-5 min-h-screen">
+            </section>
+        </div>
+    </turbo-frame>
 {% endblock %}

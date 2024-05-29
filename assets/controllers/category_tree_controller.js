@@ -8,6 +8,8 @@ export default class extends Controller {
     connect() {
         const categories = JSON.parse(this.categoriesValue);
         this.renderCategories(categories, this.element);
+        this.contentDisplay = document.getElementById('content-display');
+
     }
 
     renderCategories(categories, parentElement, level = 0) {
@@ -27,30 +29,51 @@ export default class extends Controller {
         categoryElement.classList.add('category', 'mb-2', 'p-2', 'border-l-[1px]', 'border-l-warm-orange');
         categoryElement.style.marginLeft = `20px`;
 
-        switch (category.type) {
-            case 'folder':
-                categoryElement.textContent = category.name;
-                categoryElement.textContent = category.name;
-                break;
-            case 'image':
-                const img = document.createElement('img');
-                img.src = category.imageUrl;
-                img.alt = category.name;
-                img.style.width = '50px'; // Adjust size as needed
-                categoryElement.appendChild(img);
-                break;
-            case 'text':
-                categoryElement.textContent = category.name;
-                break;
-            default:
-                categoryElement.textContent = category.name;
-        }
+        const iconElement = this.createIconElement(category.type);
+        categoryElement.appendChild(iconElement);
+        const nameElement = document.createElement('span');
+        nameElement.textContent = category.name;
+        // categoryElement.textContent = category.name;
+        categoryElement.appendChild(nameElement);
 
         categoryElement.addEventListener('click', (event) => {
             this.highlightCategory(event, categoryElement);
+            this.displayCategoryContent(category);
+
         });
 
         return categoryElement;
+    }
+
+
+    createIconElement(type) {
+        const icon = document.createElement('span');
+        icon.classList.add('icon');
+        let svgContent;
+        switch (type) {
+            case 'folder':
+                svgContent = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M10 4H2C0.9 4 0 4.9 0 6v12c0 1.1 0.9 2 2 2h20c1.1 0 2-0.9 2-2V8c0-1.1-0.9-2-2-2h-8l-2-2H10z" />
+                    </svg>`;
+                break;
+            case 'image':
+                svgContent = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M19 3H5c-1.1 0-2 0.9-2 2v14c0 1.1 0.9 2 2 2h14c1.1 0 2-0.9 2-2V5c0-1.1-0.9-2-2-2zm0 16H5V5h14v14zm-3-5.5l-2.5-3.01L11 16h6z" />
+                    </svg>`;
+                break;
+            case 'text':
+                svgContent = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-0.49-7-3.85-7-7.93s3.05-7.44 7-7.93V15h4.93C15.44 17.95 13.31 19.92 11 19.93zm6.62-4.65L13 14.4V7.07c2.93 0.65 5.36 3.08 5.93 6.01-0.66 0.43-1.38 0.77-2.12 1.2z" />
+                    </svg>`;
+                break;
+            default:
+                svgContent = '';
+        }
+        icon.innerHTML = svgContent;
+        return icon;
     }
 
     createExpandableSection(categoryElement) {
@@ -131,5 +154,49 @@ export default class extends Controller {
         if (previouslyHighlighted) {
             previouslyHighlighted.classList.remove('highlighted');
         }
+    }
+
+
+
+
+    displayCategoryContent(category) {
+        this.contentDisplay.innerHTML = ''; // Clear previous content
+        switch (category.type) {
+            case 'folder':
+                this.renderFolderContent(category);
+                break;
+            case 'image':
+                this.renderImageContent(category);
+                break;
+            case 'text':
+                this.renderTextContent(category);
+                break;
+            default:
+                this.renderTextContent(category);
+        }
+    }
+    renderFolderContent(category) {
+        const title = document.createElement('h3');
+        title.textContent = category.name;
+        const subcategoriesList = document.createElement('ul');
+        category.subcategories.forEach(subcategory => {
+            const listItem = document.createElement('li');
+            listItem.textContent = subcategory.name;
+            subcategoriesList.appendChild(listItem);
+        });
+        this.contentDisplay.appendChild(title);
+        this.contentDisplay.appendChild(subcategoriesList);
+    }
+    renderImageContent(category) {
+        const img = document.createElement('img');
+        img.src = category.imageUrl;
+        img.alt = category.name;
+        img.style.width = '100%'; // Adjust size as needed
+        this.contentDisplay.appendChild(img);
+    }
+    renderTextContent(category) {
+        const text = document.createElement('p');
+        text.textContent = category.name;
+        this.contentDisplay.appendChild(text);
     }
 }
