@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import { FolderIcon, ImageIcon, TextIcon } from 'icons'
 
 export default class extends Controller {
     static values = {
@@ -14,11 +15,11 @@ export default class extends Controller {
 
     renderCategories(categories, parentElement, level = 0) {
         categories.forEach(category => {
-            const categoryElement = this.createCategoryElement(category, level);
+            const {categoryElement, categoryLabelElement} = this.createCategoryElement(category, level);
             parentElement.appendChild(categoryElement);
 
             if (category.subcategories.length > 0) {
-                const { expandButton, subcategoryContainer } = this.createExpandableSection(categoryElement);
+                const { expandButton, subcategoryContainer } = this.createExpandableSection(categoryElement, categoryLabelElement);
                 this.renderCategories(category.subcategories, subcategoryContainer, level + 1);
             }
         });
@@ -26,61 +27,33 @@ export default class extends Controller {
 
     createCategoryElement(category, level) {
         const categoryElement = document.createElement('div');
-        categoryElement.classList.add('category', 'mb-2', 'p-2', 'border-l-[1px]', 'border-l-warm-orange');
-        categoryElement.style.marginLeft = `20px`;
+        categoryElement.classList.add('category', 'p-2', 'ml-1', 'cursor-pointer', level !== 0 && 'border-l-[1px]', level !== 0 && 'border-l-pale-pink');
+
+        const categoryLabelElement = document.createElement('div');
+        categoryLabelElement.classList.add('flex', 'gap-2', 'items-center', 'hover:text-warm-orange');
+
 
         const iconElement = this.createIconElement(category.type);
-        categoryElement.appendChild(iconElement);
+        categoryLabelElement.appendChild(iconElement);
         const nameElement = document.createElement('span');
         nameElement.textContent = category.name;
-        // categoryElement.textContent = category.name;
-        categoryElement.appendChild(nameElement);
+        categoryLabelElement.appendChild(nameElement);
+
+        categoryElement.appendChild(categoryLabelElement);
 
         categoryElement.addEventListener('click', (event) => {
             this.highlightCategory(event, categoryElement);
             this.displayCategoryContent(category);
-
         });
 
-        return categoryElement;
+        return {categoryElement, categoryLabelElement};
     }
 
-
-    createIconElement(type) {
-        const icon = document.createElement('span');
-        icon.classList.add('icon');
-        let svgContent;
-        switch (type) {
-            case 'folder':
-                svgContent = `
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                        <path d="M10 4H2C0.9 4 0 4.9 0 6v12c0 1.1 0.9 2 2 2h20c1.1 0 2-0.9 2-2V8c0-1.1-0.9-2-2-2h-8l-2-2H10z" />
-                    </svg>`;
-                break;
-            case 'image':
-                svgContent = `
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                        <path d="M19 3H5c-1.1 0-2 0.9-2 2v14c0 1.1 0.9 2 2 2h14c1.1 0 2-0.9 2-2V5c0-1.1-0.9-2-2-2zm0 16H5V5h14v14zm-3-5.5l-2.5-3.01L11 16h6z" />
-                    </svg>`;
-                break;
-            case 'text':
-                svgContent = `
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-0.49-7-3.85-7-7.93s3.05-7.44 7-7.93V15h4.93C15.44 17.95 13.31 19.92 11 19.93zm6.62-4.65L13 14.4V7.07c2.93 0.65 5.36 3.08 5.93 6.01-0.66 0.43-1.38 0.77-2.12 1.2z" />
-                    </svg>`;
-                break;
-            default:
-                svgContent = '';
-        }
-        icon.innerHTML = svgContent;
-        return icon;
-    }
-
-    createExpandableSection(categoryElement) {
+    createExpandableSection(categoryElement, categoryLabelElement) {
         const expandButton = document.createElement('span');
-        expandButton.textContent = ' +';
-        expandButton.classList.add('ml-1', 'text-dark-gray', 'cursor-pointer');
-        categoryElement.appendChild(expandButton);
+        expandButton.textContent = '+';
+        expandButton.classList.add('ml-1', 'cursor-pointer');
+        categoryLabelElement.appendChild(expandButton);
 
         const subcategoryContainer = document.createElement('div');
         subcategoryContainer.classList.add('subcategory', 'ml-1');
@@ -116,7 +89,7 @@ export default class extends Controller {
         setTimeout(() => {
             subcategoryContainer.style.height = height;
         }, 0);
-        expandButton.textContent = ' -';
+        expandButton.textContent = '-';
     }
 
     collapseSubcategories(subcategoryContainer, expandButton) {
@@ -124,7 +97,7 @@ export default class extends Controller {
         setTimeout(() => {
             subcategoryContainer.style.height = '0';
             subcategoryContainer.classList.remove('expanded');
-            expandButton.textContent = ' +';
+            expandButton.textContent = '+';
         }, 0);
     }
 
@@ -156,11 +129,8 @@ export default class extends Controller {
         }
     }
 
-
-
-
     displayCategoryContent(category) {
-        this.contentDisplay.innerHTML = ''; // Clear previous content
+        this.contentDisplay.innerHTML = '';
         switch (category.type) {
             case 'folder':
                 this.renderFolderContent(category);
@@ -181,22 +151,47 @@ export default class extends Controller {
         const subcategoriesList = document.createElement('ul');
         category.subcategories.forEach(subcategory => {
             const listItem = document.createElement('li');
+            listItem.classList.add('flex', 'gap-2', 'items-center',);
+
+            const iconElement = this.createIconElement(subcategory.type)
             listItem.textContent = subcategory.name;
+            listItem.appendChild(iconElement)
+
             subcategoriesList.appendChild(listItem);
         });
-        this.contentDisplay.appendChild(title);
         this.contentDisplay.appendChild(subcategoriesList);
     }
     renderImageContent(category) {
         const img = document.createElement('img');
         img.src = category.imageUrl;
         img.alt = category.name;
-        img.style.width = '100%'; // Adjust size as needed
+        img.style.width = '100%';
         this.contentDisplay.appendChild(img);
     }
     renderTextContent(category) {
         const text = document.createElement('p');
-        text.textContent = category.name;
+        text.textContent = category.content ?? category.name;
         this.contentDisplay.appendChild(text);
+    }
+
+    createIconElement(type) {
+        const icon = document.createElement('span');
+        icon.classList.add('icon');
+        let svgContent;
+        switch (type) {
+            case 'folder':
+                svgContent = FolderIcon();
+                break;
+            case 'image':
+                svgContent = ImageIcon();
+                break;
+            case 'text':
+                svgContent = TextIcon();
+                break;
+            default:
+                svgContent = '';
+        }
+        icon.innerHTML = svgContent;
+        return icon;
     }
 }

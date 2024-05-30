@@ -45,4 +45,16 @@ return [
     'stimulus-use' => [
         'version' => '0.52.2',
     ],
+    'icons' => [
+        'path' => './assets/components/icons/index.js',
+    ],
+    'folder-icon' => [
+        'path' => './assets/components/icons/folder.js',
+    ],
+    'image-icon' => [
+        'path' => './assets/components/icons/image.js',
+    ],
+    'text-icon' => [
+        'path' => './assets/components/icons/text.js',
+    ],
 ];

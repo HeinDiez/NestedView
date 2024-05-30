@@ -8,9 +8,9 @@
         transition: background-color 0.3s ease-in-out;
     }
 
-    .category.highlighted {
-        border-left: 1px solid #C39E80;
-    }
+    /*.category.highlighted {*/
+    /*    border-left: 1px solid #C39E80;*/
+    /*}*/
 
     .subcategory {
         overflow: hidden;
