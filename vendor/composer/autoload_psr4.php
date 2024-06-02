@@ -14,6 +14,7 @@ return array(
     'TalesFromADev\\FlowbiteBundle\\' => array($vendorDir . '/tales-from-a-dev/flowbite-bundle/src'),
     'TailwindMerge\\' => array($vendorDir . '/gehrisandro/tailwind-merge-php/src'),
     'Symfonycasts\\TailwindBundle\\' => array($vendorDir . '/symfonycasts/tailwind-bundle/src'),
+    'Symfony\\UX\\TwigComponent\\' => array($vendorDir . '/symfony/ux-twig-component/src'),
     'Symfony\\UX\\Turbo\\' => array($vendorDir . '/symfony/ux-turbo/src'),
     'Symfony\\UX\\StimulusBundle\\' => array($vendorDir . '/symfony/stimulus-bundle/src'),
     'Symfony\\UX\\Autocomplete\\' => array($vendorDir . '/symfony/ux-autocomplete/src'),

@@ -1,0 +1,54 @@
+<div class="flex flex-col gap-4 spacing-y-4 mb-4 font-light">
+    <div class="flex gap-2 items-center justify-between">
+        <div class="flex gap-2 items-center">
+            <svg class="size-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0ZM8.016 8.633a1.616 1.616 0 0 0-.2.806V13.5H5.931V6.172h1.8v.9h.039a3.009 3.009 0 0 1 1.018-.732 3.45 3.45 0 0 1 1.449-.284c.246-.003.491.02.732.068.158.024.309.08.444.164l-.759 1.832a2.09 2.09 0 0 0-1.093-.26c-.33-.01-.658.062-.954.208a1.422 1.422 0 0 0-.591.565Zm2.9 6.918H9.355L14.7 2.633c.426.272.828.58 1.2.922l-4.984 11.996Z"></path></svg>
+            <div class="flex flex-col">
+                <div class="flex gap-1 items-center">
+                    <span class="text-sm font-medium">{{ post.name }}</span>
+                    <span class="inline-block my-0 mx-2xs text-12 text-gray-500">•</span>
+                    <span class="text-xs font-light text-gray-500">{{ post.date }}</span>
+                </div>
+                <span class="text-sm font-light">/{{ post.subreddit }}</span>
+            </div>
+        </div>
+        <button class="cursor-pointer rounded-full p-2 text-xs hover:bg-gray-300">
+            <svg class='size-5' xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 15 15"><path fill="currentColor" fill-rule="evenodd" d="M1.5 7.5a1 1 0 1 1 2 0a1 1 0 0 1-2 0m5 0a1 1 0 1 1 2 0a1 1 0 0 1-2 0m5 0a1 1 0 1 1 2 0a1 1 0 0 1-2 0" clip-rule="evenodd"/></svg>
+        </button>
+    </div>
+    <h3 class="text-2xl font-semibold">{{ post.title }}</h3>
+    <p class="text-sm font-light">
+        {{ post.body }}
+    </p>
+    <div class="flex gap-2">
+        <div class="flex items-center rounded-full bg-gray-200">
+            <svg class="cursor-pointer rounded-full size-6 p-1 hover:bg-gray-300 hover:color-red-700"  xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256" fill="currentColor"><path fill="currentColor" d="m228.24 115.76l-96-96a6 6 0 0 0-8.48 0l-96 96A6 6 0 0 0 32 126h42v82a14 14 0 0 0 14 14h80a14 14 0 0 0 14-14v-82h42a6 6 0 0 0 4.24-10.24M176 114a6 6 0 0 0-6 6v88a2 2 0 0 1-2 2H88a2 2 0 0 1-2-2v-88a6 6 0 0 0-6-6H46.49L128 32.49L209.51 114Z"/></svg>
+            <span class="text-sm">
+                    {{ post.upvote }}
+                </span>
+            <svg class="cursor-pointer rounded-full size-6 p-1 hover:bg-gray-300 rotate-180 hover:color-blue-700"  xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256" fill="currentColor"><path fill="currentColor" d="m228.24 115.76l-96-96a6 6 0 0 0-8.48 0l-96 96A6 6 0 0 0 32 126h42v82a14 14 0 0 0 14 14h80a14 14 0 0 0 14-14v-82h42a6 6 0 0 0 4.24-10.24M176 114a6 6 0 0 0-6 6v88a2 2 0 0 1-2 2H88a2 2 0 0 1-2-2v-88a6 6 0 0 0-6-6H46.49L128 32.49L209.51 114Z"/></svg>
+        </div>
+        <button class="cursor-pointer flex gap-2 rounded-full items-center py-1 px-3 text-xs bg-gray-200 hover:bg-gray-300">
+            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 15 15"><path fill="none" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" d="m5.5 11.493l2 2.998l2-2.998h4a1 1 0 0 0 1-1V1.5a.999.999 0 0 0-1-.999h-12a1 1 0 0 0-1 1v8.994c0 .552.447.999 1 .999z" clip-rule="evenodd"/></svg>
+            {{ post.numberOfReplies }}
+        </button>
+        <button class="cursor-pointer flex gap-2 rounded-full items-center py-1 px-3 text-xs bg-gray-200 hover:bg-gray-300">
+            <svg class='size-4' xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32"><path fill="currentColor" d="M16 3c-.625 0-1.246.21-1.781.594L12.563 4.75L10.655 5h-.031l-.031.031A3.394 3.394 0 0 0 8.03 7.594L8 7.625v.031l-.25 1.938l-1.156 1.5l-.032.031v.031c-.699 1.117-.73 2.559.032 3.625l1.187 1.656l.313 1.72l-3.219 4.905l-1.031 1.532h4.781l1.156 2.687L10.5 29l1.031-1.563l3.156-4.75c.848.348 1.805.38 2.626 0l3.156 4.75L21.5 29l.719-1.719l1.156-2.687h4.781l-1.031-1.532L24 18.313l.25-1.875l1.156-1.656l.032-.031v-.031c.699-1.117.73-2.528-.032-3.594L24.25 9.469l-.375-1.875h.031c-.004-.024-.027-.04-.031-.063c-.18-1.308-1.215-2.37-2.531-2.531h-.032l-1.875-.25l-1.656-1.156A3.074 3.074 0 0 0 16 3m0 2.031c.23 0 .457.07.625.188L18.406 6.5l.219.156l.25.032L21.063 7h.03c.45.05.762.363.813.813v.062l.407 2.219l.03.219l.157.187l1.281 1.781c.239.332.27.895-.031 1.375l-1.406 1.969l-.032.25L22 18.063v.03a.994.994 0 0 1-.156.438l-.063.032v.03a.88.88 0 0 1-.593.313h-.063l-2.281.407l-.25.03l-.188.157l-1.781 1.281c-.332.239-.926.27-1.406-.031l-1.625-1.25l-.188-.156l-.281-.032L10.937 19h-.03a.885.885 0 0 1-.688-.438a.99.99 0 0 1-.125-.375v-.062l-.406-2.281l-.032-.25l-.156-.188l-1.281-1.781c-.239-.332-.27-.926.031-1.406l1.25-1.625l.156-.188l.031-.281l.282-2.094c.004-.015.027-.015.031-.031a1.394 1.394 0 0 1 1-1c.016-.004.016-.027.031-.031l2.094-.282l.25-.03l.219-.157l1.781-1.281c.168-.117.395-.188.625-.188m6.906 15.219l1.532 2.344H22.03l-.25.625l-.687 1.593l-2.125-3.25l.468-.343l1.97-.344v.031c.023-.004.038-.027.062-.031a2.97 2.97 0 0 0 1.437-.625zm-13.812.031a2.85 2.85 0 0 0 1.562.719h.031l1.907.25l.437.344l-2.125 3.218l-.687-1.593l-.25-.625H7.563z"/></svg>
+        </button>
+        <button class="cursor-pointer flex gap-2 rounded-full items-center py-1 px-3 text-xs bg-gray-200 hover:bg-gray-300">
+            <svg class='size-3' xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8m-4-6l-4-4l-4 4m4-4v13"/></svg>
+            Share
+        </button>
+    </div>
+    <div>
+        <label>
+            <input type="text" placeholder="Add a comment" class="py-2 rounded-full px-4 border-[1px] hover:border-gray-400 border-gray-300 bg-light-beige w-full placeholder:text-sm placeholder:font-light"/>
+        </label>
+    </div>
+    <div class="flex gap-2 items-center">
+        <span class="text-xs text-gray-400">Sort by:</span>
+        <span class="text-xs font-semibold text-gray-400"> Best </span>
+        <label>
+            <input type="text" placeholder="Search Comment" class="py-2 rounded-full px-4 border-[1px] hover:border-gray-400 focus:border-gray-400 border-gray-300 bg-light-beige placeholder:text-sm placeholder:font-light"/>
+        </label>
+    </div>
+</div>

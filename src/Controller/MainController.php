@@ -45,6 +45,7 @@ class MainController extends AbstractController
                                         "id" => 10,
                                         "name" => "Lenovo",
                                         "type" => "text",
+                                        "content" => "Desktops are powerful, versatile computing devices designed to be used at a fixed location, typically on a desk. They consist of several components, including a central processing unit (CPU), monitor, keyboard, and mouse. Unlike laptops, desktops are not portable, but they offer several advantages in terms of performance, expandability, and customization.",
                                         "subcategories" => [
                                             [
                                                 "id" => 14,

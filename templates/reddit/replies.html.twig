@@ -1,0 +1,21 @@
+{% block reply_stream %}
+    <turbo-stream action="update" target="expand-message-{{ sourceId }}">
+        <template>
+            {% if replies|default %}
+                <div class="w-6">
+
+                </div>
+                <div>
+
+                    {% for reply in replies %}
+                        <div>
+                            {{ reply.hasReply }}
+
+                            {{ include('reddit/_message.html.twig', { message: reply }) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </template>
+    </turbo-stream>
+{% endblock %}

@@ -40,6 +40,7 @@ class ComposerStaticInit72e3430f1160105d4c26d7dea732ce48
         'S' => 
         array (
             'Symfonycasts\\TailwindBundle\\' => 28,
+            'Symfony\\UX\\TwigComponent\\' => 25,
             'Symfony\\UX\\Turbo\\' => 17,
             'Symfony\\UX\\StimulusBundle\\' => 26,
             'Symfony\\UX\\Autocomplete\\' => 24,
@@ -193,6 +194,10 @@ class ComposerStaticInit72e3430f1160105d4c26d7dea732ce48
         'Symfonycasts\\TailwindBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfonycasts/tailwind-bundle/src',
+        ),
+        'Symfony\\UX\\TwigComponent\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/ux-twig-component/src',
         ),
         'Symfony\\UX\\Turbo\\' => 
         array (

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tree View!{% endblock %}
+
+{% block body %}
+        <div class="max-w-5xl mx-auto relative">
+                <div class="flex gap-4">
+                        <div>
+                                {{ include('reddit/post.html.twig', { post: post }) }}
+
+                                {{ include('reddit/messages.html.twig', { messages: messages}) }}
+                        </div>
+                        {{ include('reddit/sidenavigation.html.twig', { post: post }) }}
+                </div>
+        </div>
+{% endblock %}
