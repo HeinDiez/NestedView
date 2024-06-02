@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '0a4c2331d0796bd2cfe2e3eedbcce92b1275a85a',
+        'reference' => '53bdec86e976d7435e3467d4eb3b74e32ed4777d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '0a4c2331d0796bd2cfe2e3eedbcce92b1275a85a',
+            'reference' => '53bdec86e976d7435e3467d4eb3b74e32ed4777d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1187,7 +1187,7 @@
         'symfony/ux-twig-component' => array(
             'pretty_version' => '2.x-dev',
             'version' => '2.9999999.9999999.9999999-dev',
-            'reference' => '6bd7c878571c62f081555b527ad62fae2859912a',
+            'reference' => 'f452a6cfc36a81c0fdd2c23e22e40ddd12bf4643',
             'type' => 'symfony-bundle',
             'install_path' => __DIR__ . '/../symfony/ux-twig-component',
             'aliases' => array(),

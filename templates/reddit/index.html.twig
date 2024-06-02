@@ -3,12 +3,12 @@
 {% block title %}Tree View!{% endblock %}
 
 {% block body %}
-        <div class="max-w-5xl mx-auto relative">
+        <div class="max-w-5xl mx-auto relative px-3 sm:px-0">
                 <div class="flex gap-4">
                         <div>
                                 {{ include('reddit/post.html.twig', { post: post }) }}
 
-                                {{ include('reddit/messages.html.twig', { messages: messages}) }}
+                                {{ include('reddit/messages.html.twig', { messages: messages }) }}
                         </div>
                         {{ include('reddit/sidenavigation.html.twig', { post: post }) }}
                 </div>

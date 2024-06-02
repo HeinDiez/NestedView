@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Asset\Packages;
 use Symfony\UX\Turbo\TurboBundle;
 
 #[Route('/reddit')]
@@ -54,12 +53,59 @@ class RedditController extends AbstractController
                                 "message" => "Hey.. which plugin is this exactly? Does it enforce the designer to use tailwind specific spacing?",
                                 "op" => false,
                                 "likes" => 6,
-                                "replies" => []
+                                "replies" => [
+                                    [
+                                        "id" => 9,
+                                        "name" => "darkshifty",
+                                        "date" => "1y ago",
+                                        "message" => "We've discussed this with our ui/ux team to keep standard 5px iterations on spacing and we've extended our theme with the possibilities which works quite well.",
+                                        "op" => false,
+                                        "likes" => 6,
+                                        "replies" => []
+                                    ],
+                                    [
+                                        "id" => 10,
+                                        "name" => "darkshifty",
+                                        "date" => "1y ago",
+                                        "message" => "We've discussed this with our ui/ux team to keep standard 5px iterations on spacing and we've extended our theme with the possibilities which works quite well.",
+                                        "op" => false,
+                                        "likes" => 6,
+                                        "replies" => [
+                                            [
+                                                "id" => 11,
+                                                "name" => "darkshifty",
+                                                "date" => "1y ago",
+                                                "message" => "We've discussed this with our ui/ux team to keep standard 5px iterations on spacing and we've extended our theme with the possibilities which works quite well.",
+                                                "op" => false,
+                                                "likes" => 6,
+                                                "replies" => []
+                                            ],
+                                            [
+                                                "id" => 12,
+                                                "name" => "darkshifty",
+                                                "date" => "1y ago",
+                                                "message" => "We've discussed this with our ui/ux team to keep standard 5px iterations on spacing and we've extended our theme with the possibilities which works quite well.",
+                                                "op" => false,
+                                                "likes" => 6,
+                                                "replies" => []
+                                            ],
+                                        ]
+                                    ],
+                                    [
+                                        "id" => 13,
+                                        "name" => "darkshifty",
+                                        "date" => "1y ago",
+                                        "message" => "We've discussed this with our ui/ux team to keep standard 5px iterations on spacing and we've extended our theme with the possibilities which works quite well.",
+                                        "op" => false,
+                                        "likes" => 6,
+                                        "replies" => []
+                                    ],
+                                ]
                             ]
                         ]
                     ],
                     [
-                        "id" => 5,
+                        "id" => 7,
                         "name" => "darkshifty",
                         "date" => "1y ago",
                         "message" => "We've discussed this with our ui/ux team to keep standard 5px iterations on spacing and we've extended our theme with the possibilities which works quite well.",
@@ -68,7 +114,7 @@ class RedditController extends AbstractController
                         "replies" => []
                     ],
                     [
-                        "id" => 6,
+                        "id" => 8,
                         "name" => "User1231541",
                         "date" => "6 minutes",
                         "message" => "Ha! really nice of you to share this.",
@@ -105,6 +151,15 @@ class RedditController extends AbstractController
                 "op" => false,
                 "likes" => 6,
                 "replies" => []
+            ],
+            [
+                "id" => 14,
+                "name" => "User1231541",
+                "date" => "6 minutes",
+                "message" => "Ha! really nice of you to share this.",
+                "op" => false,
+                "likes" => 6,
+                "replies" => []
             ]
         ];
     }
@@ -120,12 +175,16 @@ class RedditController extends AbstractController
     #[Route('/{id}', name: 'reddit_expand', methods: ['GET'])]
     public function expand(Request $request, int $id): Response
     {
+        $expand = $request->query->get('expand', 'false');
+        $expand = filter_var($expand, FILTER_VALIDATE_BOOLEAN);
+
         $replies = $this->getRepliesById($id, $this->messages);
         $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
         return $this->render('reddit/replies.html.twig', [
             'sourceId' => $id,
-            'replies' => $this->prepareMessages($replies)
+            'replies' => $expand ? $this->prepareMessages($replies) :  false,
+            'expand' => $expand
         ]);
     }
 
@@ -170,7 +229,7 @@ class RedditController extends AbstractController
         $filteredReplies = [];
         foreach ($replies as $reply) {
             $filteredReply = $reply;
-            unset($filteredReply['replies']);
+            $filteredReply['hasReply'] = !empty($filteredReply['replies']);
             $filteredReplies[] = $filteredReply;
         }
         return $filteredReplies;

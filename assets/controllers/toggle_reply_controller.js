@@ -1,19 +1,31 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = [ "link" ];
+    static targets = ['link']
+    static values = {
+        expanded: Boolean,
+        identifier: String
+    }
 
     toggle(event) {
+        this.expandedValue = !this.expandedValue;
+        this.updateLink();
+        this.updateFrame();
+    }
 
-        const link = this.linkTarget;
-        const isShowing = link.textContent.trim() === "Hide Reply";
+    updateLink() {
+        const href = new URL(this.element.href);
+        href.searchParams.set('expand', this.expandedValue);
+        this.element.href = href.toString();
+    }
 
-        if (isShowing) {
-            link.textContent = "Show Reply";
-            link.href = link.dataset.showHref;
-        } else {
-            link.textContent = "Hide Reply";
-            link.href = link.dataset.hideHref;
+    updateFrame() {
+        const frame = document.getElementById(`expand-message-${this.identifierValue}`);
+        if (this.expandedValue) {
+            frame.classList.add('expanded');
+            return
         }
+
+        frame.classList.remove('expanded');
     }
 }
