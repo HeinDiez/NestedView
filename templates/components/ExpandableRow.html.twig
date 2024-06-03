@@ -44,7 +44,8 @@
             </twig:Button>
         </div>
         <div></div>
-        {% if this.replies is not empty %}
+        <div class="subcategory {{ expanded ? 'expanded': ''}} ">
+            {% if this.replies is not empty %}
                 <div>
                     {% for reply in this.replies %}
                         <div>
@@ -52,6 +53,7 @@
                         </div>
                     {% endfor %}
                 </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 </div>
