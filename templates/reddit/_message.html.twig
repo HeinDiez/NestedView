@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-2 mt-4">
+<div class="flex flex-col mt-4">
     <div class="grid grid-cols-[24px_minmax(0,1fr)] xs:grid-cols-[32px_minmax(0,1fr)] ">
         <div>
             <img src="{{ asset('images/user.webp') }}" width="50" alt="Froq Logo" class="rounded-full cursor-pointer ">
@@ -19,51 +19,7 @@
                 {{ message.message }}
             </p>
         </div>
-        <div class="flex items-center w-6 justify-center">
-            {% if message.hasReply|default %}
-                <a
-                    href="{{ path('reddit_expand', { 'id': message.id, 'expand': expanded|default(false) ? 'true' : 'false' }) }}"
-                    data-controller="toggle-reply"
-                    data-action="click->toggle-reply#toggle"
-                    data-turbo-frame="expand-message-{{ message.id }}"
-                    data-toggle-reply-expanded-value="{{ expanded|default(false) ? 'true' : 'false' }}"
-                    data-toggle-reply-identifier-value="{{ message.id }}"
-                    class="cursor-pointer flex gap-2 rounded-full items-center p-1 text-xs hover:bg-gray-300">
-                    {{ include('components/icons/circularAdd.html.twig') }}
-{#                    {% if expanded|default(false) %}#}
-{#                        {{ include('components/icons/circularMinus.html.twig') }}#}
-{#                    {% else %}#}
-{#                        {{ include('components/icons/circularAdd.html.twig') }}#}
-{#                    {% endif %}#}
-                </a>
-            {% endif %}
-        </div>
-        <div class="flex">
-            <div class="flex items-center">
-                {{  component('icons/ArrowUp', { class: 'cursor-pointer rounded-full size-6 p-1 hover:bg-gray-300'}) }}
-                <span class="text-sm">
-                    {{ message.likes }}
-                </span>
-                {{ component('icons/ArrowDown', { class: 'cursor-pointer rounded-full size-6 p-1 hover:bg-gray-300 rotate-180'}) }}
-            </div>
-            <twig:Button>
-                {{ component('icons/MessageCloud', { class: 'size-3' }) }}
-                Reply
-            </twig:Button>
-            <twig:Button>
-                {{ component('icons/Ribbon', { class: 'size-4' }) }}
-                Award
-            </twig:Button>
-            <twig:Button>
-                {{ component('icons/Share', { class: 'size-3' }) }}
-                Share
-            </twig:Button>
-            <twig:Button>
-                {{ component('icons/Ellipsis', { class: 'size-3' }) }}
-            </twig:Button>
-        </div>
-        <div class="w-6"></div>
-        <turbo-frame id="expand-message-{{ message.id }}" class="subcategory">
-        </turbo-frame>
     </div>
+    <twig:ExpandableRow id="{{ message.id }}" :message="message"/>
+
 </div>

@@ -1,34 +1,30 @@
 <?php
 
-namespace App\Controller;
+namespace App\Twig\Components;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\UX\Turbo\TurboBundle;
+use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveArg;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[Route('/')]
-class RedditController extends AbstractController
+#[AsLiveComponent]
+class ExpandableRow
 {
-    private $messages;
-    private $post;
+    use DefaultActionTrait;
 
+    #[LiveProp(writable: true)]
+    public bool $expanded = false;
+
+    #[LiveProp]
+    public int $id;
+    #[LiveProp]
+    public array $message;
+
+    private $messages;
     public function __construct()
     {
-        $this->post = [
-            "subreddit" => 'tailwindcss',
-            "name" => 'Hein diez',
-            "date" => "1y ago",
-            "numberOfReplies" => 342,
-            "upvote" => '4.3k',
-            "title" => "What is your approach using Tailwind when building a UI from a Figma design",
-            "body" => "I have made some projects using Tailwind and I love it,
-                but I'm having a hard time when I try using Tailwind to build a UI based on a Figma file
-                most of the time the UI/UX guy designs the UI with random spacing values
-                like: 13px, 27px, etc.. and random font colors which do not have a corresponding class name in Tailwind
-                I'm forced to use CSS or SCSS with these designs but is there a way to overcome these issues in Tailwind? or is it better to stick to CSS/SCSS with such designs?"
-        ];
         $this->messages = [
             [
                 "id" => 1,
@@ -163,13 +159,18 @@ class RedditController extends AbstractController
             ]
         ];
     }
-    #[Route('/', name: 'reddit_index')]
-    public function homepage(): Response
+
+    public function replies(): array|bool
     {
-        return $this->render('reddit/index.html.twig', [
-            'post' => $this->post,
-            'messages' => $this->prepareMessages($this->messages),
-        ]);
+        $replies = $this->getRepliesById($this->id, $this->messages);
+
+        return $this->expanded ? $this->prepareMessages($replies) : false;
+    }
+
+    #[LiveAction]
+    public function toggle (): void
+    {
+        $this->expanded = !$this->expanded;
     }
 
     private function prepareMessages(array $messages): array
@@ -179,6 +180,33 @@ class RedditController extends AbstractController
             $filteredMessages[] = $this->filterReplies($message);
         }
         return $filteredMessages;
+    }
+
+    private function getRepliesById(int $id, array $messages): array
+    {
+        foreach ($messages as $message) {
+            if ($message['id'] === $id) {
+                return $this->filterIDReplies($message['replies']);
+            }
+
+            $nestedReplies = $this->getRepliesById($id, $message['replies']);
+            if (!empty($nestedReplies)) {
+                return $nestedReplies;
+            }
+        }
+
+        return [];
+    }
+
+    private function filterIDReplies(array $replies): array
+    {
+        $filteredReplies = [];
+        foreach ($replies as $reply) {
+            $filteredReply = $reply;
+            $filteredReply['hasReply'] = !empty($filteredReply['replies']);
+            $filteredReplies[] = $filteredReply;
+        }
+        return $filteredReplies;
     }
 
     private function filterReplies(array $message): array

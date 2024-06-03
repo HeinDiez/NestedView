@@ -1,0 +1,57 @@
+<div {{ attributes }}>
+    <div class="grid grid-cols-[24px_1fr] xs:grid-cols-[32px_1fr] relative">
+        <div class="w-6 absolute z-[1] top-0 left-0 bottom-0 w-lg xs:w-xl flex justify-center items-center z-0 cursor-pointer group mb-sm" aria-hidden="true">
+            <div class="w-[1px] h-full group-hover:bg-gray-400 bg-gray-300"></div>
+        </div>
+        {% if message.hasReply %}
+        <twig:Button
+                data-action="live#action"
+                data-live-action-param="toggle"
+                padding="p-1"
+        >
+            {% if expanded %}
+                {{ include('components/icons/CircularMinus.html.twig') }}
+            {% else %}
+                {{ include('components/icons/CircularAdd.html.twig') }}
+            {% endif %}
+        </twig:Button>
+        {% else %}
+            <div class="w-6"></div>
+        {% endif %}
+
+        <div class="flex">
+            <div class="flex items-center">
+                {{  component('icons/ArrowUp', { class: 'cursor-pointer rounded-full size-6 p-1 hover:bg-gray-300'}) }}
+                <span class="text-sm">
+                {{ message.likes }}
+            </span>
+                {{ component('icons/ArrowDown', { class: 'cursor-pointer rounded-full size-6 p-1 hover:bg-gray-300 rotate-180'}) }}
+            </div>
+            <twig:Button>
+                {{ component('icons/MessageCloud', { class: 'size-3' }) }}
+                Reply
+            </twig:Button>
+            <twig:Button>
+                {{ component('icons/Ribbon', { class: 'size-4' }) }}
+                Award
+            </twig:Button>
+            <twig:Button>
+                {{ component('icons/Share', { class: 'size-3' }) }}
+                Share
+            </twig:Button>
+            <twig:Button>
+                {{ component('icons/Ellipsis', { class: 'size-3' }) }}
+            </twig:Button>
+        </div>
+        <div></div>
+        {% if this.replies is not empty %}
+                <div>
+                    {% for reply in this.replies %}
+                        <div>
+                            {{ include('reddit/_message.html.twig', { message: reply }) }}
+                        </div>
+                    {% endfor %}
+                </div>
+        {% endif %}
+    </div>
+</div>
