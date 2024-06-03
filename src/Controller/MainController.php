@@ -16,7 +16,7 @@ use Symfony\Component\Asset\Packages;
 
 class MainController extends AbstractController
 {
-    #[Route('/', name: 'app_homepage')]
+    #[Route('/old', name: 'app_homepage')]
     public function homepage(Packages $assets): Response
     {
         $categories = [

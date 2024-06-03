@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\UX\Turbo\TurboBundle;
 
-#[Route('/reddit')]
+#[Route('/')]
 class RedditController extends AbstractController
 {
     private $messages;
@@ -185,16 +185,6 @@ class RedditController extends AbstractController
             'sourceId' => $id,
             'replies' => $expand ? $this->prepareMessages($replies) :  false,
             'expand' => $expand
-        ]);
-    }
-
-    #[Route('/{id}', name: 'reddit_collapse', methods: ['GET'])]
-    public function collapse (Request $request, int $id): Response
-    {
-        $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
-        return $this->render('reddit/replies.html.twig', [
-            'sourceId' => $id,
-            'replies' => false
         ]);
     }
 
